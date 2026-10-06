@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Welcome to my application"
+    return render_template('upload_file.html')
 
 @app.route("/train")
 def train_route():
@@ -23,7 +23,8 @@ def train_route():
     except Exception as e:
         raise CustomException(e,sys)
 
-@app.route('train/predict', methods=['POST', 'GET'])
+@app.route('/predict', methods=['POST', 'GET'])
+@app.route('/train/predict', methods=['POST', 'GET'])
 def upload():
    
     try:
@@ -44,4 +45,5 @@ def upload():
         raise CustomException(e,sys)
    
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug= True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
